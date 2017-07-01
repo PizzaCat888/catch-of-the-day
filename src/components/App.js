@@ -5,6 +5,7 @@ import Order from "./Order";
 import Inventory from "./Inventory";
 import Fish from "./Fish";
 import sampleFishes from "../sample-fishes";
+import base from "../base";
 
 class App extends React.Component {
     //state in React allows several components to be edited at the same time without editing the actual tags
@@ -20,6 +21,18 @@ class App extends React.Component {
             fishes: {},
             order: {}
         }
+    }
+
+    componentWillMount() { //native react lifecycle hook method
+        this.ref = base.syncState(`${this.props.params.storeId}/fishes`,
+        {
+            context: this,
+            state: "fishes"
+        });
+    }
+
+    componentWillUnmount() {
+        base.removeBinding(this.ref);
     }
 
     addFish(fish) {
