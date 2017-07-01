@@ -24,15 +24,30 @@ class App extends React.Component {
     }
 
     componentWillMount() { //native react lifecycle hook method
+        //this runs before the <app> is rendered
         this.ref = base.syncState(`${this.props.params.storeId}/fishes`,
         {
             context: this,
             state: "fishes"
         });
+
+        //check ifthere is any orders in localstorage
+        const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
+    
+        if(localStorageRef) {
+            //update our app component's order state
+            this.setState({
+                order: JSON.parse(localStorageRef)
+            })
+        }
     }
 
     componentWillUnmount() {
         base.removeBinding(this.ref);
+    }
+
+    componentWillUpdate(nextProps, nextState) { //updates when our state state changes
+        localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order)); //stores our data in a string in local storage
     }
 
     addFish(fish) {
@@ -81,7 +96,7 @@ class App extends React.Component {
                       {/*a key helps specfies what object is being manipulated*/}
                   </ul>
               </div>
-              <Order fishes={this.state.fishes} order={this.state.order}/>
+              <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params}/>
               <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
           </div>
         
