@@ -3,20 +3,77 @@ import {render} from "react-dom";
 import Header from "./Header";
 import Order from "./Order";
 import Inventory from "./Inventory";
+import Fish from "./Fish";
+import sampleFishes from "../sample-fishes";
 
 class App extends React.Component {
+    //state in React allows several components to be edited at the same time without editing the actual tags
+    constructor() {
+        super();
+
+        this.addFish = this.addFish.bind(this);
+        this.loadSamples = this.loadSamples.bind(this);
+        this.addToOrder = this.addToOrder.bind(this);
+
+        //initial state
+        this.state = {
+            fishes: {},
+            order: {}
+        }
+    }
+
+    addFish(fish) {
+    //update our state
+
+    const fishes = {...this.state.fishes} //copy current state
+    //add in our new fish
+    const timestamp = Date.now();
+    fishes[`fish-${timestamp}`] = fish;
+
+    //this.state.fishes.fish1 = fish;
+
+    //set state  
+    this.setState({fishes: fishes}) //everytime we change fishes, all instances of fishes will change    
+    }
+
+    loadSamples() {
+       this.setState ({
+           fishes: sampleFishes
+       })
+    }
+
+    addToOrder(key) {
+        //take a copy of our state
+        const order={...this.state.order};
+        //update on add the new number of fish ordered
+        order[key] = order[key] + 1 || 1;
+        //update our state
+        this.setState({ order: order})
+    }
+
     render() {
         return (
           <div className="catch-of-the-day">
               <div className="menu">
                   <Header tagline="Fresh Seafood Market"/>
+                  <ul className="list-of-fishes">
+                      {Object
+                      .keys(this.state.fishes)
+                      .map(key => <Fish key={key} 
+                      index={key}
+                      details={this.state.fishes[key]}
+                      addToOrder={this.addToOrder}
+                      />)} 
+                      {/*Object.keys returns a list of objects. We need a key to make it unique, otherwise react won't know what to update*/}
+                      {/*a key helps specfies what object is being manipulated*/}
+                  </ul>
               </div>
               <Order/>
-              <Inventory/>
+              <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
           </div>
         
         )
-    }
+    } 
 }
 
 export default App;
