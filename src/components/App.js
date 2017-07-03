@@ -13,6 +13,7 @@ class App extends React.Component {
         super();
 
         this.addFish = this.addFish.bind(this);
+        this.updateFish = this.updateFish.bind(this);
         this.loadSamples = this.loadSamples.bind(this);
         this.addToOrder = this.addToOrder.bind(this);
 
@@ -62,7 +63,13 @@ class App extends React.Component {
 
     //set state  
     this.setState({fishes: fishes}) //everytime we change fishes, all instances of fishes will change    
-    }
+}
+
+updateFish(key, updatedFish) {
+    const fishes = {...this.state.fishes};
+    fishes[key] = updatedFish;
+    this.setState({fishes})
+}
 
     loadSamples() {
        this.setState ({
@@ -97,7 +104,7 @@ class App extends React.Component {
                   </ul>
               </div>
               <Order fishes={this.state.fishes} order={this.state.order} params={this.props.params}/>
-              <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
+              <Inventory updateFish={this.updateFish}  fishes={this.state.fishes} addFish={this.addFish} loadSamples={this.loadSamples}/>
           </div>
         
         )
