@@ -130,11 +130,16 @@ updateFish(key, updatedFish) {
               addFish={this.addFish} 
               loadSamples={this.loadSamples}
               removeFish ={this.removeFish}
+              storeId = {this.props.params.storeId}
               />
           </div>
         
         )
     } 
+}
+
+App.propTypes = {
+    params: React.PropTypes.object.isRequired
 }
 
 export default App;

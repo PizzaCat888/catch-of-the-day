@@ -22,4 +22,10 @@ class Fish extends React.Component {
     }
 }
 
+Fish.propTypes = {
+    details: React.PropTypes.func.isRequired,
+    index:React.PropTypes.string.isRequired,
+    addToOrder: React.PropTypes.func.isRequired
+}
+
 export default Fish

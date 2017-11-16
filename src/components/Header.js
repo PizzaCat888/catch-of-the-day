@@ -19,5 +19,10 @@ import {render} from "react-dom";
 
   }
 
+//specfiy who the property types are, makes development easier in teams
+Header.proptypes = {
+    tagline: React.PropTypes.string.isRequired //if passing tagline, it must be a string
+}
+
 
 export default Header
