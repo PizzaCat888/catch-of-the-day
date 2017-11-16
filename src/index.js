@@ -8,9 +8,10 @@ import Notfound from "./components/Notfound"
 import App from "./components/App"
 import StorePicker from "./components/StorePicker"
 
+const repo =`/${window.location.pathname.split('/')[1]}`; //for deploying to github pages
 const Root = () => {
     return(
-        <BrowserRouter>
+        <BrowserRouter basename={repo}>
         <div>
         {/*show storepicker component when we are on this url*/}
             <Match exactly pattern="/" component={StorePicker} />
